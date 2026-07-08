@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "OfflineBiz",
+    "slug": "offline-biz",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "offlinebiz",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#2563eb"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.offlinebiz.app"
+    },
+    "android": {
+      "package": "com.offlinebiz.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#2563eb"
+      }
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-router"
+    ]
+  }
+}
