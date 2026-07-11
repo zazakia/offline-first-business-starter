@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { MiddlewarePipeline } from '../middleware/pipeline'
-import type { Middleware, MiddlewareContext, BaseEntity } from '../middleware/pipeline'
+import type { Middleware, MiddlewareContext } from '../middleware/pipeline'
+import type { BaseEntity } from '../types'
 
 interface TestEntity extends BaseEntity {
   name: string

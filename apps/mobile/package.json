@@ -15,9 +15,15 @@
   "dependencies": {
     "@repo/core": "workspace:*",
     "@repo/db-expo-sqlite": "workspace:*",
-    "@repo/ui-core": "workspace:*",
     "@repo/entity-customer": "workspace:*",
+    "@repo/ui-core": "workspace:*",
+    "@tanstack/react-query": "^5.50.0",
     "expo": "~52.0.0",
+    "expo-asset": "~11.0.5",
+    "expo-constants": "~17.0.8",
+    "expo-file-system": "~18.0.12",
+    "expo-font": "~13.0.4",
+    "expo-keep-awake": "~14.0.3",
     "expo-router": "~4.0.0",
     "expo-sqlite": "~14.0.0",
     "expo-status-bar": "~2.0.0",
@@ -25,9 +31,8 @@
     "react-native": "0.76.0",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.0.0",
-    "@tanstack/react-query": "^5.50.0",
-    "zustand": "^5.0.0",
-    "zod": "^3.23.0"
+    "zod": "^3.23.0",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
