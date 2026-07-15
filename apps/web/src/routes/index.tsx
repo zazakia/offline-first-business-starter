@@ -1,188 +1,85 @@
 /**
  * ─── Dashboard Page ──────────────────────────────────────────
- * Overview of key metrics and recent activity.
- * Demonstrates reading from the offline DB.
+ * ClinicMeta — Hospital, Pharmacy & Lab Management Dashboard
  */
 
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Card, CardHeader, CardContent, cn } from '@repo/ui-core'
-import { customerRepo } from '../lib/db'
+import { patientRepo, doctorRepo, appointmentRepo, billingRepo, inventoryRepo, pharmacyRepo, labRepo } from '../lib/db'
 import { useOnlineStatus } from '@repo/ui-core'
 import { useSyncStore } from '../store/app'
-import {
-  Users,
-  TrendingUp,
-  Activity,
-  AlertCircle,
-  ArrowRight,
-} from 'lucide-react'
+import { HeartPulse, Stethoscope, Calendar, Receipt, Package, PillBottle, Microscope, ArrowRight, Clock, DollarSign, Activity, AlertCircle, Pill, FileText, Settings } from 'lucide-react'
 
-interface DashboardMetrics {
-  totalCustomers: number
-  activeCustomers: number
-  leadCustomers: number
-  monthlyGrowth: number
+interface ClinicMetrics {
+  totalPatients: number; totalDoctors: number; todayAppointments: number
+  pendingPharmacy: number; pendingLab: number; pendingInvoices: number
+  totalRevenue: number; lowStockItems: number
 }
 
 export function DashboardPage() {
-  const [metrics, setMetrics] = useState<DashboardMetrics>({
-    totalCustomers: 0,
-    activeCustomers: 0,
-    leadCustomers: 0,
-    monthlyGrowth: 0,
-  })
+  const [m, setM] = useState<ClinicMetrics>({ totalPatients:0,totalDoctors:0,todayAppointments:0,pendingPharmacy:0,pendingLab:0,pendingInvoices:0,totalRevenue:0,lowStockItems:0 })
   const [loading, setLoading] = useState(true)
   const { online } = useOnlineStatus()
   const { pendingCount, lastSyncAt } = useSyncStore()
 
   useEffect(() => {
-    async function loadMetrics() {
+    (async () => {
       try {
-        const [total, active, leads] = await Promise.all([
-          customerRepo.count({}),
-          customerRepo.count({ filter: [{ field: 'status', operator: 'eq', value: 'active' }] }),
-          customerRepo.count({ filter: [{ field: 'status', operator: 'eq', value: 'lead' }] }),
+        const today = new Date(); today.setHours(0,0,0,0); const tm = today.getTime()
+        const [tp, td, apr, invr, invt, por, lor] = await Promise.all([
+          patientRepo.count({}), doctorRepo.count({}),
+          appointmentRepo.findMany({ limit: 500 }), billingRepo.findMany({ limit: 500 }),
+          inventoryRepo.findMany({ limit: 500 }), pharmacyRepo.findMany({ limit: 500 }),
+          labRepo.findMany({ limit: 500 }),
         ])
+        const apps = 'items' in apr ? apr.items : []; const invs = 'items' in invr ? invr.items : []
+        const inventory = 'items' in invt ? invt.items : []
+        const pharmOrders = 'items' in por ? por.items : []; const labOrders = 'items' in lor ? lor.items : []
 
-        setMetrics({
-          totalCustomers: total,
-          activeCustomers: active,
-          leadCustomers: leads,
-          monthlyGrowth: total > 0 ? Math.round((active / total) * 100) : 0,
+        setM({
+          totalPatients: tp, totalDoctors: td,
+          todayAppointments: apps.filter((a:any)=>a.scheduledStart>=tm&&a.scheduledStart<tm+86400000).length,
+          pendingPharmacy: pharmOrders.filter((o:any)=>!['dispensed','cancelled','rejected'].includes(o.status)).length,
+          pendingLab: labOrders.filter((o:any)=>!['completed','cancelled'].includes(o.status)).length,
+          pendingInvoices: invs.filter((i:any)=>!['paid','cancelled','refunded'].includes(i.status)).length,
+          totalRevenue: invs.filter((i:any)=>i.status==='paid').reduce((s:number,i:any)=>s+(i.totalAmount??0),0),
+          lowStockItems: inventory.filter((i:any)=>i.quantityOnHand<=0||(i.quantityOnHand>0&&i.quantityOnHand<=(i.minimumQuantity??10))).length,
         })
-      } catch (error) {
-        console.error('Failed to load dashboard metrics:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadMetrics()
+      } catch(e) { console.error(e) } finally { setLoading(false) }
+    })()
   }, [])
 
-  const statCards = [
-    {
-      label: 'Total Customers',
-      value: metrics.totalCustomers,
-      icon: Users,
-      color: 'blue',
-      link: '/customers',
-    },
-    {
-      label: 'Active Customers',
-      value: metrics.activeCustomers,
-      icon: TrendingUp,
-      color: 'green',
-      link: '/customers',
-    },
-    {
-      label: 'Leads',
-      value: metrics.leadCustomers,
-      icon: Activity,
-      color: 'yellow',
-      link: '/customers',
-    },
-    {
-      label: 'Activation Rate',
-      value: `${metrics.monthlyGrowth}%`,
-      icon: TrendingUp,
-      color: 'purple',
-      link: '/customers',
-    },
-  ] as const
+  const cards = [
+    { label:'Patients', value:String(m.totalPatients), icon:HeartPulse, color:'blue', link:'/patients' },
+    { label:'Doctors', value:String(m.totalDoctors), icon:Stethoscope, color:'green', link:'/doctors' },
+    { label:'Today\'s Appts', value:String(m.todayAppointments), icon:Calendar, color:'purple', link:'/appointments' },
+    { label:'Pharmacy Orders', value:String(m.pendingPharmacy), subtext:'pending', icon:PillBottle, color:'green', link:'/pharmacy' },
+    { label:'Lab Orders', value:String(m.pendingLab), subtext:'pending', icon:Microscope, color:'blue', link:'/laboratory' },
+    { label:'Invoices Due', value:String(m.pendingInvoices), subtext:`$${m.totalRevenue.toLocaleString()} collected`, icon:Receipt, color:'yellow', link:'/billing' },
+    { label:'Low Stock', value:String(m.lowStockItems), icon:Package, color:'red', link:'/inventory' },
+  ]
 
   return (
     <div className="p-6">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          {online ? 'Online' : 'Offline'} · {pendingCount} pending syncs
-          {lastSyncAt && ` · Last sync: ${new Date(lastSyncAt).toLocaleTimeString()}`}
-        </p>
+        <p className="mt-1 text-sm text-gray-500">{online?'Online':'Offline'} · {pendingCount} pending syncs{lastSyncAt?` · Last sync: ${new Date(lastSyncAt).toLocaleTimeString()}`:''}</p>
       </div>
-
-      {/* Stats Grid */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((card) => (
-          <Link key={card.label} to={card.link}>
-            <Card className="transition-shadow hover:shadow-md">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">{card.label}</p>
-                  {loading ? (
-                    <div className="mt-1 h-8 w-16 animate-pulse rounded bg-gray-200" />
-                  ) : (
-                    <p className="mt-1 text-2xl font-semibold text-gray-900">
-                      {card.value}
-                    </p>
-                  )}
-                </div>
-                <div
-                  className={cn(
-                    'rounded-xl p-3',
-                    card.color === 'blue' && 'bg-blue-100 text-blue-600',
-                    card.color === 'green' && 'bg-green-100 text-green-600',
-                    card.color === 'yellow' && 'bg-yellow-100 text-yellow-600',
-                    card.color === 'purple' && 'bg-purple-100 text-purple-600',
-                  )}
-                >
-                  <card.icon className="h-6 w-6" />
-                </div>
-              </div>
-            </Card>
-          </Link>
-        ))}
+      {m.lowStockItems > 0 && (
+        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 flex items-center gap-2">
+          <AlertCircle className="h-5 w-5 text-red-500" />
+          <p className="text-sm font-medium text-red-800">{m.lowStockItems} item(s) low/out of stock. <Link to="/inventory" className="underline">Review inventory →</Link></p>
+        </div>
+      )}
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        {cards.map(c=>(<Link key={c.label} to={c.link}><Card className="transition-shadow hover:shadow-md h-full"><div className="flex items-start justify-between"><div><p className="text-xs font-medium text-gray-500 uppercase">{c.label}</p><p className="mt-1 text-xl font-semibold text-gray-900">{c.value}</p>{c.subtext&&<p className="text-xs text-gray-400">{c.subtext}</p>}</div><div className={cn('rounded-xl p-2.5',c.color==='blue'?'bg-blue-100 text-blue-600':c.color==='green'?'bg-green-100 text-green-600':c.color==='purple'?'bg-purple-100 text-purple-600':c.color==='yellow'?'bg-yellow-100 text-yellow-600':c.color==='red'?'bg-red-100 text-red-600':'')}><c.icon className="h-5 w-5"/></div></div></Card></Link>))}
       </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader
-          title="Quick Actions"
-          description="Common tasks to get started"
-        />
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <Link
-              to="/customers/new"
-              className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-blue-300 hover:bg-blue-50"
-            >
-              <Users className="h-5 w-5 text-blue-600" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Add Customer</p>
-                <p className="text-xs text-gray-500">Create a new customer record</p>
-              </div>
-              <ArrowRight className="h-4 w-4 text-gray-400" />
-            </Link>
-
-            <Link
-              to="/customers"
-              className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-blue-300 hover:bg-blue-50"
-            >
-              <Activity className="h-5 w-5 text-blue-600" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">View Customers</p>
-                <p className="text-xs text-gray-500">Browse and manage your customers</p>
-              </div>
-              <ArrowRight className="h-4 w-4 text-gray-400" />
-            </Link>
-
-            <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4">
-              <AlertCircle className="h-5 w-5 text-gray-400" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {online ? 'System Online' : 'Working Offline'}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {online
-                    ? 'Changes sync in real-time'
-                    : `${pendingCount} changes queued for sync`}
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <Card><CardHeader title="Quick Actions" description="Common clinical tasks"/><CardContent>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[{label:'New Patient',icon:HeartPulse,to:'/patients/new',color:'blue'},{label:'Schedule Appointment',icon:Calendar,to:'/appointments/new',color:'purple'},{label:'New Lab Order',icon:Microscope,to:'/laboratory/new',color:'blue'},{label:'New Prescription',icon:Pill,to:'/prescriptions/new',color:'yellow'},{label:'Pharmacy Order',icon:PillBottle,to:'/pharmacy/new',color:'green'},{label:'New Invoice',icon:Receipt,to:'/billing/new',color:'yellow'},{label:'Medical Record',icon:FileText,to:'/medical-records/new',color:'red'},{label:'Settings',icon:Settings,to:'/settings',color:'gray'}].map(a=>(<Link key={a.label} to={a.to} className={cn('flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors',a.color==='blue'?'hover:border-blue-300 hover:bg-blue-50':a.color==='green'?'hover:border-green-300 hover:bg-green-50':a.color==='purple'?'hover:border-purple-300 hover:bg-purple-50':a.color==='red'?'hover:border-red-300 hover:bg-red-50':a.color==='yellow'?'hover:border-yellow-300 hover:bg-yellow-50':'hover:bg-gray-50')}><a.icon className={cn('h-5 w-5',a.color==='blue'?'text-blue-600':a.color==='green'?'text-green-600':a.color==='purple'?'text-purple-600':a.color==='red'?'text-red-600':a.color==='yellow'?'text-yellow-600':'text-gray-600')}/><div className="flex-1"><p className="text-sm font-medium text-gray-900">{a.label}</p></div><ArrowRight className="h-4 w-4 text-gray-400"/></Link>))}
+        </div>
+      </CardContent></Card>
     </div>
   )
 }

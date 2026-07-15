@@ -1,27 +1,26 @@
 /**
- * ─── Mobile Customer List ────────────────────────────────────
- * Lists customers from local SQLite database.
+ * ─── Mobile Dashboard ────────────────────────────────────────
+ * ClinicMeta Mobile — main dashboard with patient list.
  */
 
 import { useEffect, useState } from 'react'
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, ScrollView } from 'react-native'
 import { Link } from 'expo-router'
-import { customerRepo } from '../lib/db'
-import type { Customer } from '@repo/entity-customer'
+import { patientRepo } from '../lib/db'
+import type { Patient } from '@repo/entity-patient'
+import { PATIENT_STATUS_LABELS } from '@repo/entity-patient'
 
-export default function CustomerListScreen() {
-  const [customers, setCustomers] = useState<Customer[]>([])
+export default function DashboardScreen() {
+  const [patients, setPatients] = useState<Patient[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
       try {
-        const result = await customerRepo.findMany({ page: 1, pageSize: 100 })
-        if ('items' in result) {
-          setCustomers(result.items as Customer[])
-        }
+        const result = await patientRepo.findMany({ page: 1, pageSize: 50 })
+        if ('items' in result) setPatients(result.items as Patient[])
       } catch (err) {
-        console.error('Failed to load customers:', err)
+        console.error('Failed to load:', err)
       } finally {
         setLoading(false)
       }
@@ -29,80 +28,114 @@ export default function CustomerListScreen() {
     load()
   }, [])
 
+  const quickLinks = [
+    { label: 'Pacientes', href: '/patients', color: '#3B82F6' },
+    { label: 'Doctores', href: '/doctors', color: '#10B981' },
+    { label: 'Citas', href: '/appointments', color: '#8B5CF6' },
+    { label: 'Expedientes', href: '/medical-records', color: '#EF4444' },
+    { label: 'Recetas', href: '/prescriptions', color: '#F59E0B' },
+    { label: 'Facturación', href: '/billing', color: '#F59E0B' },
+    { label: 'Inventario', href: '/inventory', color: '#10B981' },
+    { label: 'Departamentos', href: '/departments', color: '#8B5CF6' },
+  ]
+
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#2563eb" />
+        <ActivityIndicator size="large" color="#3B82F6" />
       </View>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={customers}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={
-          <View style={styles.centered}>
-            <Text style={styles.emptyText}>No customers yet</Text>
-            <Link href="/customers/new" style={styles.addButton}>
-              <Text style={styles.addButtonText}>Add Customer</Text>
-            </Link>
-          </View>
-        }
-        renderItem={({ item }) => (
-          <Link href={`/customers/${item.id}`} asChild>
-            <TouchableOpacity style={styles.card}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.email}>{item.email}</Text>
-              <Text style={styles.status}>{item.status}</Text>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>ClinicMeta</Text>
+      <Text style={styles.subtitle}>{patients.length} pacientes registrados</Text>
+
+      {/* Quick Links Grid */}
+      <View style={styles.grid}>
+        {quickLinks.map((link) => (
+          <Link key={link.href} href={link.href as any} asChild>
+            <TouchableOpacity style={[styles.gridItem, { borderLeftColor: link.color }]}>
+              <Text style={styles.gridLabel}>{link.label}</Text>
             </TouchableOpacity>
           </Link>
-        )}
-      />
-      <Link href="/customers/new" asChild>
-        <TouchableOpacity style={styles.fab}>
-          <Text style={styles.fabText}>+</Text>
+        ))}
+      </View>
+
+      {/* Recent Patients */}
+      <Text style={styles.sectionTitle}>Pacientes Recientes</Text>
+      {patients.slice(0, 10).map((patient) => (
+        <Link key={patient.id} href={`/patients/${patient.id}` as any} asChild>
+          <TouchableOpacity style={styles.card}>
+            <View style={styles.cardRow}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.name}>{patient.fullName}</Text>
+                <Text style={styles.detail}>
+                  {patient.phone} • {patient.dateOfBirth}
+                </Text>
+              </View>
+              <View style={[styles.statusBadge, { backgroundColor: patient.status === 'active' ? '#D1FAE5' : '#F3F4F6' }]}>
+                <Text style={[styles.statusText, { color: patient.status === 'active' ? '#065F46' : '#6B7280' }]}>
+                  {PATIENT_STATUS_LABELS[patient.status]}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Link>
+      ))}
+
+      <Link href="/patients/new" asChild>
+        <TouchableOpacity style={styles.addButton}>
+          <Text style={styles.addButtonText}>+ Nuevo Paciente</Text>
         </TouchableOpacity>
       </Link>
-    </View>
+
+      <View style={{ height: 40 }} />
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5' },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  emptyText: { fontSize: 16, color: '#666', marginBottom: 16 },
-  addButton: { backgroundColor: '#2563eb', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8 },
-  addButtonText: { color: '#fff', fontWeight: '600' },
+  container: { flex: 1, backgroundColor: '#F9FAFB', padding: 16 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 28, fontWeight: '700', color: '#111827', marginTop: 40 },
+  subtitle: { fontSize: 14, color: '#6B7280', marginTop: 4, marginBottom: 24 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 24 },
+  gridItem: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    width: '48%' as any,
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  gridLabel: { fontSize: 14, fontWeight: '600', color: '#1F2937' },
+  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#111827', marginBottom: 12 },
   card: {
     backgroundColor: '#fff',
-    marginHorizontal: 12,
-    marginVertical: 4,
-    padding: 16,
+    padding: 14,
     borderRadius: 10,
+    marginBottom: 8,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.04,
+    shadowRadius: 3,
+    elevation: 1,
   },
-  name: { fontSize: 16, fontWeight: '600', color: '#1a1a1a' },
-  email: { fontSize: 14, color: '#666', marginTop: 2 },
-  status: { fontSize: 12, color: '#2563eb', marginTop: 4, fontWeight: '500' },
-  fab: {
-    position: 'absolute',
-    bottom: 24,
-    right: 24,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#2563eb',
-    justifyContent: 'center',
+  cardRow: { flexDirection: 'row', alignItems: 'center' },
+  name: { fontSize: 16, fontWeight: '600', color: '#111827' },
+  detail: { fontSize: 13, color: '#6B7280', marginTop: 2 },
+  statusBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 },
+  statusText: { fontSize: 11, fontWeight: '600' },
+  addButton: {
+    backgroundColor: '#3B82F6',
+    padding: 14,
+    borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#2563eb',
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
+    marginTop: 16,
   },
-  fabText: { fontSize: 24, color: '#fff', fontWeight: '300', marginTop: -2 },
+  addButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
 })

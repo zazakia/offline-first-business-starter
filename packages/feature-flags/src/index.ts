@@ -160,4 +160,84 @@ featureFlags.defineMany([
     enabled: false,
     rules: [{ target: 'environment', environments: ['development'] }],
   },
+
+  // ─── Clinic-Specific Feature Flags ──────────────────────
+  {
+    key: 'clinic.prescriptions.enabled',
+    description: 'Enable prescription/receipt module',
+    enabled: true,
+    default: true,
+  },
+  {
+    key: 'clinic.billing.enabled',
+    description: 'Enable billing and invoicing module',
+    enabled: true,
+    default: true,
+  },
+  {
+    key: 'clinic.inventory.enabled',
+    description: 'Enable medical inventory management',
+    enabled: true,
+    default: true,
+  },
+  {
+    key: 'clinic.lab-orders.enabled',
+    description: 'Enable lab order management',
+    enabled: false,
+    rules: [{ target: 'tenant', values: ['hospital-tenant'] }],
+  },
+  {
+    key: 'clinic.imaging.enabled',
+    description: 'Enable imaging/diagnostic orders',
+    enabled: false,
+    rules: [{ target: 'tenant', values: ['hospital-tenant'] }],
+  },
+  {
+    key: 'clinic.surgery.enabled',
+    description: 'Enable surgical scheduling',
+    enabled: false,
+    rules: [{ target: 'tenant', values: ['hospital-tenant'] }],
+  },
+  {
+    key: 'clinic.inpatient.enabled',
+    description: 'Enable inpatient/hospitalization management',
+    enabled: false,
+    rules: [{ target: 'tenant', values: ['hospital-tenant'] }],
+  },
+  {
+    key: 'clinic.telemedicine.enabled',
+    description: 'Enable telemedicine/virtual consultations',
+    enabled: false,
+    rules: [{ target: 'percentage', percentage: 25 }],
+  },
+  {
+    key: 'clinic.cfdi.enabled',
+    description: 'Enable CFDI electronic invoicing (Mexico)',
+    enabled: true,
+    default: true,
+  },
+  {
+    key: 'clinic.controlled-substances',
+    description: 'Enable controlled substance tracking and special forms',
+    enabled: true,
+    default: true,
+  },
+  {
+    key: 'clinic.patient-portal',
+    description: 'Enable patient self-service portal',
+    enabled: false,
+    rules: [{ target: 'tenant', values: ['enterprise-clinic'] }],
+  },
+  {
+    key: 'clinic.appointment-reminders',
+    description: 'Enable SMS/email appointment reminders',
+    enabled: false,
+    rules: [{ target: 'percentage', percentage: 50 }],
+  },
+  {
+    key: 'clinic.metadata-custom-fields',
+    description: 'Enable tenant-configurable custom fields on entities',
+    enabled: true,
+    default: true,
+  },
 ])

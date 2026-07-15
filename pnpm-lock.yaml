@@ -59,7 +59,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   apps/desktop:
     dependencies:
@@ -111,7 +111,7 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
         specifier: ^4.3.0
-        version: 4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0))
+        version: 4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0))
       autoprefixer:
         specifier: ^10.4.0
         version: 10.5.2(postcss@8.5.16)
@@ -126,19 +126,46 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^6.0.0
-        version: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0)
+        version: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0)
 
   apps/mobile:
     dependencies:
+      '@babel/runtime':
+        specifier: ^7.29.7
+        version: 7.29.7
       '@repo/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@repo/db-expo-sqlite':
         specifier: workspace:*
         version: link:../../packages/db-adapter-expo-sqlite
+      '@repo/entity-appointment':
+        specifier: workspace:*
+        version: link:../../packages/entity-appointment
+      '@repo/entity-billing':
+        specifier: workspace:*
+        version: link:../../packages/entity-billing
       '@repo/entity-customer':
         specifier: workspace:*
         version: link:../../packages/entity-customer
+      '@repo/entity-department':
+        specifier: workspace:*
+        version: link:../../packages/entity-department
+      '@repo/entity-doctor':
+        specifier: workspace:*
+        version: link:../../packages/entity-doctor
+      '@repo/entity-inventory':
+        specifier: workspace:*
+        version: link:../../packages/entity-inventory
+      '@repo/entity-medical-record':
+        specifier: workspace:*
+        version: link:../../packages/entity-medical-record
+      '@repo/entity-patient':
+        specifier: workspace:*
+        version: link:../../packages/entity-patient
+      '@repo/entity-prescription':
+        specifier: workspace:*
+        version: link:../../packages/entity-prescription
       '@repo/ui-core':
         specifier: workspace:*
         version: link:../../packages/ui-core
@@ -203,15 +230,48 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.10.0(react-hook-form@7.81.0(react@19.2.7))
+      '@repo/clinic-config':
+        specifier: workspace:*
+        version: link:../../packages/clinic-config
       '@repo/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@repo/db-dexie':
         specifier: workspace:*
         version: link:../../packages/db-adapter-dexie
+      '@repo/entity-appointment':
+        specifier: workspace:*
+        version: link:../../packages/entity-appointment
+      '@repo/entity-billing':
+        specifier: workspace:*
+        version: link:../../packages/entity-billing
       '@repo/entity-customer':
         specifier: workspace:*
         version: link:../../packages/entity-customer
+      '@repo/entity-department':
+        specifier: workspace:*
+        version: link:../../packages/entity-department
+      '@repo/entity-doctor':
+        specifier: workspace:*
+        version: link:../../packages/entity-doctor
+      '@repo/entity-inventory':
+        specifier: workspace:*
+        version: link:../../packages/entity-inventory
+      '@repo/entity-laboratory':
+        specifier: workspace:*
+        version: link:../../packages/entity-laboratory
+      '@repo/entity-medical-record':
+        specifier: workspace:*
+        version: link:../../packages/entity-medical-record
+      '@repo/entity-patient':
+        specifier: workspace:*
+        version: link:../../packages/entity-patient
+      '@repo/entity-pharmacy':
+        specifier: workspace:*
+        version: link:../../packages/entity-pharmacy
+      '@repo/entity-prescription':
+        specifier: workspace:*
+        version: link:../../packages/entity-prescription
       '@repo/ui-core':
         specifier: workspace:*
         version: link:../../packages/ui-core
@@ -225,10 +285,10 @@ importers:
         specifier: ^0.400.0
         version: 0.400.0(react@19.2.7)
       react:
-        specifier: ^19.0.0
+        specifier: ^19.2.7
         version: 19.2.7
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^19.2.7
         version: 19.2.7(react@19.2.7)
       react-hook-form:
         specifier: ^7.53.0
@@ -248,7 +308,7 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
         specifier: ^4.3.0
-        version: 4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0))
+        version: 4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0))
       autoprefixer:
         specifier: ^10.4.0
         version: 10.5.2(postcss@8.5.16)
@@ -263,13 +323,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^6.0.0
-        version: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0)
+        version: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0)
       vite-plugin-pwa:
         specifier: ^0.20.0
-        version: 0.20.5(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1)
+        version: 0.20.5(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1)
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/audit-trail:
     dependencies:
@@ -288,7 +348,58 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/clinic-analytics:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/clinic-config:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      '@repo/feature-flags':
+        specifier: workspace:*
+        version: link:../feature-flags
+      '@repo/multi-tenant':
+        specifier: workspace:*
+        version: link:../multi-tenant
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/clinic-workflow:
+    dependencies:
+      '@repo/clinic-config':
+        specifier: workspace:*
+        version: link:../clinic-config
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/codegen:
     dependencies:
@@ -317,7 +428,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/db-adapter-dexie:
     dependencies:
@@ -339,7 +450,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/db-adapter-expo-sqlite:
     dependencies:
@@ -379,6 +490,41 @@ importers:
         specifier: ^5.5.0
         version: 5.9.3
 
+  packages/entity-appointment:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.17
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-billing:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
   packages/entity-customer:
     dependencies:
       '@repo/core':
@@ -396,7 +542,141 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-department:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-doctor:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.17
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-inventory:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-laboratory:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-medical-record:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-patient:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.17
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-pharmacy:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+
+  packages/entity-prescription:
+    dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/feature-flags:
     devDependencies:
@@ -405,7 +685,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/multi-tenant:
     dependencies:
@@ -418,7 +698,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/observability:
     dependencies:
@@ -434,7 +714,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/sync-engine:
     dependencies:
@@ -453,7 +733,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   packages/testing:
     dependencies:
@@ -465,7 +745,7 @@ importers:
         version: 10.0.0
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
     devDependencies:
       '@types/uuid':
         specifier: ^10.0.0
@@ -494,7 +774,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+        version: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
 packages:
 
@@ -5424,6 +5704,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  terser@5.49.0:
+    resolution: {integrity: sha512-SNiDnXyHSrxVcIOtVbULzcTmniUiwcV7Nwdyj1twVubeTmbjoa8p69KKDpfkdoOavuM4/GRm1+ykI8qqnavHoA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
     engines: {node: '>=8'}
@@ -8099,7 +8384,7 @@ snapshots:
     dependencies:
       serialize-javascript: 7.0.7
       smob: 1.6.2
-      terser: 5.48.0
+      terser: 5.49.0
     optionalDependencies:
       rollup: 4.62.2
 
@@ -8401,7 +8686,7 @@ snapshots:
       '@urql/core': 5.2.0
       wonka: 6.3.6
 
-  '@vitejs/plugin-react@4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0))':
+  '@vitejs/plugin-react@4.7.0(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0))':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/plugin-transform-react-jsx-self': 7.29.7(@babel/core@7.29.7)
@@ -8409,7 +8694,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0)
+      vite: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -8420,13 +8705,13 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.9(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0))':
+  '@vitest/mocker@2.1.9(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0))':
     dependencies:
       '@vitest/spy': 2.1.9
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
 
   '@vitest/pretty-format@2.1.9':
     dependencies:
@@ -11832,6 +12117,13 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  terser@5.49.0:
+    dependencies:
+      '@jridgewell/source-map': 0.3.11
+      acorn: 8.17.0
+      commander: 2.20.3
+      source-map-support: 0.5.21
+
   test-exclude@6.0.0:
     dependencies:
       '@istanbuljs/schema': 0.1.6
@@ -12019,13 +12311,13 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-node@2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0):
+  vite-node@2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 1.1.2
-      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -12037,18 +12329,18 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-pwa@0.20.5(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1):
+  vite-plugin-pwa@0.20.5(vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1):
     dependencies:
       debug: 4.4.3
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.17
-      vite: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0)
+      vite: 6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0)
       workbox-build: 7.4.1(@types/babel__core@7.20.5)
       workbox-window: 7.4.1
     transitivePeerDependencies:
       - supports-color
 
-  vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0):
+  vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.16
@@ -12057,9 +12349,9 @@ snapshots:
       '@types/node': 20.19.43
       fsevents: 2.3.3
       lightningcss: 1.27.0
-      terser: 5.48.0
+      terser: 5.49.0
 
-  vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.48.0)(tsx@4.23.0):
+  vite@6.4.3(@types/node@20.19.43)(jiti@1.21.7)(lightningcss@1.27.0)(terser@5.49.0)(tsx@4.23.0):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.5)
@@ -12072,13 +12364,13 @@ snapshots:
       fsevents: 2.3.3
       jiti: 1.21.7
       lightningcss: 1.27.0
-      terser: 5.48.0
+      terser: 5.49.0
       tsx: 4.23.0
 
-  vitest@2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0):
+  vitest@2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0))
+      '@vitest/mocker': 2.1.9(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9
@@ -12094,8 +12386,8 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.1.1
       tinyrainbow: 1.2.0
-      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
-      vite-node: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.48.0)
+      vite: 5.4.21(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
+      vite-node: 2.1.9(@types/node@20.19.43)(lightningcss@1.27.0)(terser@5.49.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.43

@@ -2,14 +2,14 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "jsx": "react-jsx",
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true
   },
-  "include": ["src", "app"],
+  "include": ["src", "app", "lib"],
   "references": [
     { "path": "../../packages/core" },
     { "path": "../../packages/db-adapter-expo-sqlite" },

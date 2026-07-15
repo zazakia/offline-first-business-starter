@@ -38,9 +38,19 @@ class OfflineDatabase extends Dexie {
     super(dbName)
 
     // Define all entity tables and the change log
-    this.version(1).stores({
+    this.version(2).stores({
       changeLog: '++id, entityType, entityId, status, timestamp, tenantId',
       customer: 'id, tenantId, email, status, company, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status], [tenantId+createdAt]',
+      patient: 'id, tenantId, fullName, phone, email, dateOfBirth, gender, bloodType, status, lastVisitDate, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status]',
+      doctor: 'id, tenantId, fullName, licenseNumber, specialty, email, phone, status, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status]',
+      appointment: 'id, tenantId, patientId, doctorId, type, scheduledStart, scheduledEnd, status, priority, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status], [tenantId+patientId], [tenantId+doctorId]',
+      medicalRecord: 'id, tenantId, patientId, doctorId, appointmentId, type, status, encounterDate, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+patientId]',
+      prescription: 'id, tenantId, patientId, doctorId, medicalRecordId, status, startDate, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+patientId], [tenantId+status]',
+      billing: 'id, tenantId, patientId, invoiceNumber, status, issueDate, totalAmount, paidAmount, balanceDue, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status], [tenantId+invoiceNumber]',
+      inventory: 'id, tenantId, name, sku, category, quantityOnHand, status, isControlled, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status], [tenantId+sku]',
+      department: 'id, tenantId, name, code, type, isActive, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+code]',
+      pharmacy: 'id, tenantId, patientId, prescriptionId, type, status, receivedAt, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+status], [tenantId+patientId]',
+      laboratory: 'id, tenantId, patientId, doctorId, status, priority, orderedAt, createdAt, updatedAt, deletedAt, [tenantId+deletedAt], [tenantId+patientId], [tenantId+status]',
     })
 
     this.changeLog = this.table('changeLog')
